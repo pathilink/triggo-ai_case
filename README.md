@@ -72,40 +72,18 @@ $$
 * a loyalty program
 
 ### 3.2 Delay Prediction
+
+The aim was to develop a predictive model capable of identifying whether a delivery will be delayed (delivery_delay), using historical data.
 * **Delivery delay**: delivery date longer than the estimated date.
 
-**DecisionTreeClassifier:**
-|| precision | recall | f1-score | support |
-|-:|-:|-:|-:|-:|
-| 0 | 0.92 | 1.00 | 0.96 | 39574 |
-| 1 | 0.55 | 0.00 | 0.00 | 3371  |
-||||||
-| accuracy ||| 0.92 | 42945 |
-| macro avg | 0.73 | 0.50 | 0.48 | 42945 |
-| weighted avg | 0.89 | 0.92 | 0.88 | 42945 |
+The model with the best overall performance was Random Forest, with 93.5% accuracy, with a good balance between precision and recall for the minority class (delays), although there is still room for improvement in the ability to detect delays.
 
-As the data is unbalanced, the classification model has learned to predict only the majority class (class 0, i.e. no delivery delay).
+| Model               | Accuracy  | Recall (Delay) | Precision (Delay) | F1 (Delay) | Note                                                      |
+| ------------------- | --------- | -------------- | ----------------- | ---------- | --------------------------------------------------------- |
+| **Random Forest**   | **93,5%** | 0,42           | **0,63**          | **0,51**   | Better balance, but still loses many delays               |
+| Decision Tree       | 88%       | 0,47           | 0,32              | 0,38       | Higher recall than RF, but generates many false positives |
+| Logistic Regression | 63%       | **0,51**       | 0,11              | 0,18       | Tried to maximize recall, but with very low precision     |
 
-Class 0 (no delay):
-* Precision: 0.92 → When the model says that delivery won't be delayed, it's right 92% of the time.
-* Recall: 1.00 → The model finds 100% of delivery cases without delay.
-* F1-score: 0.96 → Good balance between precision and recall.
-
-
-Class 1 (with delay):
-* Precision: 0.55 → Not good because is misleading as the base is unbalanced.
-
-* Recall: 0.00 → The model hasn't identified any cases of delay.
-
-* F1-score: 0.00 → The model is failing completely in class 1.
-
-Overall accuracy: 92%
-* Looks good, but is misleading because the vast majority of data is class 0 (no delay).
-
-Macro avg:
-* Takes both classes into account equally, even if they are unbalanced.
-
-* Average recall: 0.50 → The model only hits one of the two classes.
 
 ### 3.3 Customer Segmentation
 ![radar cluster](img/radar_cluster.png)
